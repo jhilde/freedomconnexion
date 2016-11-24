@@ -1,0 +1,24 @@
+{
+  "name": "html",
+  "authors": [
+    "Justin Hildebrandt <jhilde@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery-validation": "^1.15.1",
+    "jquery": "^3.1.1",
+    "braintree-web": "^3.5.0",
+    "font-awesome": "fontawesome#^4.7.0"
+  }
+}

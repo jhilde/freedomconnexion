@@ -1,0 +1,22 @@
+{
+  "body_json" : {
+  "donation_info" : {
+  	"amount" : "34.22",
+  	"frequency" : "one-time"
+  },
+  "donor_info" : {
+  	"first_name" : "First",
+  	"last_name" : "Last",
+  	"email" : "jhilde@gmail.com",
+  	"phone" : "781-354-6094",
+  	"address" : {
+  		"street_address" : "1 Powder House Terr",
+  		"extended_address" : "Apt 2",
+  		"city" : "Somerville",
+  		"state" : "MA",
+  		"zip" : "02144"
+  	}
+  },
+  "nonce" : "fake-valid-nonce"
+}
+}

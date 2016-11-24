@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  
+    <link rel="stylesheet" src="./css/donate.css">
+    <script src="./bower_components/jquery/dist/jquery.js"></script>
+    <script src="./bower_components/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="./bower_components/braintree-web/client.js"></script>
+    <script src="./bower_components/braintree-web/hosted-fields.js"></script>
+    <script src="./bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="./js/donate.js"></script>
+  </head>
+<body>
+
+
+
+<div class="container-fluid">
+    <div class="view">
+    <div class="row">
+        <!-- You can make it whatever width you want. I'm making it full width
+             on <= small devices and 4/12 page width on >= medium devices -->
+        <div class="col-xs-12 col-md-3">
+        
+        
+            <!-- CREDIT CARD FORM STARTS HERE -->
+            <div class="panel panel-default credit-card-box">
+                <div class="panel-heading display-table" >
+                    <div class="row display-tr" >
+                        <h3 class="panel-title display-td" >Payment Details</h3>
+                        <div class="display-td" >                            
+                            <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+                        </div>
+                    </div>                    
+                </div>
+                <div class="panel-body">
+                    <form role="form" id="payment-form" method="POST" action="javascript:void(0);">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label for="cardNumber">CARD NUMBER</label>
+                                    <div class="input-group" id="card-number"></div>
+                                        <span class="input-group-addon"><img height="20" src="img/credit-cards/amex.png"></span>
+                                    </div>
+                                </div>                            
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-7 col-md-7">
+                                <div class="form-group">
+                                    <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+                                    <input 
+                                        type="tel" 
+                                        class="form-control" 
+                                        name="cardExpiry"
+                                        placeholder="MM / YY"
+                                        autocomplete="cc-exp"
+                                        required 
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-xs-5 col-md-5 pull-right">
+                                <div class="form-group">
+                                    <label for="cardCVC">CV CODE</label>
+                                    <input 
+                                        type="tel" 
+                                        class="form-control"
+                                        name="cardCVC"
+                                        placeholder="CVC"
+                                        autocomplete="cc-csc"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label for="couponCode">COUPON CODE</label>
+                                    <input type="text" class="form-control" name="couponCode" />
+                                </div>
+                            </div>                        
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button class="subscribe btn btn-success btn-lg btn-block" type="button">Start Subscription</button>
+                            </div>
+                        </div>
+                        <div class="row" style="display:none;">
+                            <div class="col-xs-12">
+                                <p class="payment-errors"></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>            
+            <!-- CREDIT CARD FORM ENDS HERE -->
+            
+            
+        </div> 
+      </div>
+    </div>  
+    </div>     
+<!-- First panel to select amount
+<div id="firstPanel" class="panel panel-default bootstrap-basic">
+  <form id="donateFormA" class="panel-body">
+    <div class="panel-heading">
+      <h3 class="panel-title">Select your donation</h3>
+    </div>
+    <div class="btn-group" role="group">
+      <button id="donationAmountButton" value=10 type="button" class="btn btn-default donationAmountButton">$10</button>
+      <button id="donationAmountButton" value=25 type="button" class="btn btn-default donationAmountButton">$25</button>
+      <button id="donationAmountButton" value=50 type="button" class="btn btn-default donationAmountButton">$50</button>
+    </div>
+  </form>
+</div>
+-->
+
+<!--
+<div id="secondPanel" class="panel panel-default bootstrap-basic" style="display: none;">
+  
+  <div class="panel-heading">
+      <h3 class="panel-title">Enter your information:</h3>
+  </div>
+
+  <form id="donateFormB" class="panel-body">
+  <div class="row">
+    <div class="form-group col-xs-8">
+      <label class="control-label">First Name:</label>
+      <input type="text" name="first_name" placeholder="First">
+      <span class="helper-text"></span>
+    </div>
+    <div class="form-group col-xs-8">
+      <label class="control-label">Last Name:</label>
+      <input type="text" name="first_name" placeholder="Last">
+      <span class="helper-text"></span>
+    </div>
+  </div>
+  <div class="row">
+      <div class="form-group col-xs-6">
+        <label class="control-label">Email</label>
+        <input type="text" name="email" placeholder="someone@gmail.com">
+      </div>
+      <div class="form-group col-xs-6">
+        <label class="control-label">Phone</label>
+        <input type="text" name="phone" placeholder="617-555-1212">
+      </div>
+    </div>
+
+  
+  
+  <input type="text" name="street_address" placeholder="Address #1">
+  <input type="text" name="extended_address" placeholder="Address #2">
+  <input type="text" name="city" placeholder="City">
+  <input type="text" name="state" placeholder="State">
+  <input type="text" name="zip" placeholder="Zip">
+  <div class="panel-heading">
+    <h3 class="panel-title">Enter Card Details</h3>
+  </div>
+  
+    <div class="row">
+      <div class="form-group col-xs-8">
+        <label class="control-label">Card Number</label>
+        -->
+        <!--  Hosted Fields div container 
+        <div class="form-control" id="card-number"></div>
+        <span class="helper-text"></span>
+      </div>
+      <div class="form-group col-xs-4">
+        <div class="row">
+          <label class="control-label col-xs-12">Expiration Date</label>
+          <div class="col-xs-6"> -->
+            <!--  Hosted Fields div container
+            <div class="form-control" id="expiration-date"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-xs-6">
+        <label class="control-label">Security Code</label> -->
+        <!--  Hosted Fields div container 
+        <div class="form-control" id="cvv"></div>
+      </div>
+      <div class="form-group col-xs-6">
+        <label class="control-label">Zipcode</label>-->
+        <!--  Hosted Fields div container 
+        <div class="form-control" id="postal-code"></div>
+      </div>
+    </div>
+
+    
+    <button value="submit" id="submit" class="btn btn-success btn-lg center-block">Pay with <span id="card-type">Card</span></button>
+  </form>
+</div>
+</div>
+-->
+<!-- the result of the search will be rendered inside this div -->
+<div id="result"></div>
+ 
+<script>
+
+/*var validator = $("#donateform").validate({
+      rules: {
+        first_name: "required",
+        last_name: "required",
+      },
+      messages: {
+        first_name: "Enter your firstname",
+        last_name: "Enter your lastname",
+      },
+      // set this class to error-labels to indicate valid fields
+      success: function(label) {
+        // set &nbsp; as text for IE
+        label.html("&nbsp;").addClass("checked");
+      },
+      highlight: function(element, errorClass) {
+        $(element).parent().next().find("." + errorClass).removeClass("checked");
+      }
+    });*/
+
+/*
+{
+  "donation_info" : {
+    "amount" : "34.22",
+    "frequency" : "one-time"
+  },
+  "donor_info" : {
+    "first_name" : "First",
+    "last_name" : "Last",
+    "email" : "jhilde@gmail.com",
+    "phone" : "781-354-6094",
+    "address" : {
+      "street_address" : "1 Powder House Terr",
+      "extended_address" : "Apt 2",
+      "city" : "Somerville",
+      "state" : "MA",
+      "zip" : "02144"
+    }
+  },
+  "nonce" : "fake-valid-nonce"
+}
+*/
+
+</script>
+ 
+</body>
+</html>

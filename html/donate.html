@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Donate to Freedom Connexion</title>
+
+    <!-- Bootstrap -->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+    <link href="css/simple.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="./bower_components/jquery/dist/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./bower_components/braintree-web/client.js"></script>
+    <script src="./bower_components/braintree-web/hosted-fields.js"></script>
+    <script src="./js/simple.js"></script>
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-4 col-md-5 col-md-offset-7">
+        <!-- Donation panel -->
+            <div class="panel panel-default">
+                <div class="panel-heading form-header" >
+                    <div class="row" >
+                        <p class="form-title">Bring freedom this summer</p>
+                    </div> 
+                    <!--<div class="row" >
+                      <a class="panelCircle" href="#panel-donationInfo"><i class="fa fa-circle-o fa-lg"></i></a>
+                      <a class="panelCircle" href="#panel-donorInfo"><i class="fa fa-circle-o fa-lg"></i></a>
+                      <a class="panelCircle" href="#panel-paymentInfo"><i class="fa fa-circle-o fa-lg"></i></a>
+                    </div>  -->                 
+                </div>
+                <form role="form" id="donateForm" method="POST" action="javascript:void(0);">
+                <div class="panel-body fixed-panel">
+                  <!-- Donation Info Panel -->
+                  <div id="panel-donationInfo" class="panel-body">        
+                    <div class="row">
+                      <div class="form-group">
+                        <div class="col-xs-4">
+                          <button value="50" type="button" class="btn btn-block btn-amount btn-pill">$50</button>
+                        </div>
+                        <div class="col-xs-4">
+                          <button value="100" type="button" class="btn btn-block btn-amount btn-pill">$100</button>
+                        </div>
+                        <div class="col-xs-4">
+                          <button value="200" type="button" class="btn btn-block btn-amount btn-pill">$200</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <button value="500" type="button" class="btn btn-block btn-amount btn-pill">$500</button>
+                      </div>
+                      <div class="col-xs-4">
+                        <button value="1000" type="button" class="btn btn-block btn-amount btn-pill">$1000</button>
+                      </div>
+                      <div class="col-xs-4">
+                        <button value="2000" type="button" class="btn btn-block btn-amount btn-pill">$2000</button>
+                      </div>
+                    </div> 
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <button value="2500" type="button" class="btn btn-block btn-amount btn-pill">$2500</button>
+                      </div>
+                      <div id="otherAmountDiv" class="col-xs-8 form-group">
+                        <input type="text" id="otherAmount" class="form-control other-amount" placeholder="Other Amount"/>
+                        <span id="otherAmountError" class="help-block hidden"></span>
+                      </div>
+                    </div> 
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <a id="btn-donation-next" class="btn btn-block btn-next" href="#">
+                          Next <i class="fa fa-arrow-right fa-lg"></i></a>
+                      </div>
+                    </div>     
+                  </div>
+                  <!-- End Donation Info Panel -->
+                  <!-- Donor Info Panel -->
+                  <div id="panel-donorInfo" class="panel-body hidden">
+                    <div class="row">
+                      <div id="firstNameDiv" class="col-xs-6 close-col">
+                        <label class="control-label" for="firstName">First Name*</label>
+                        <input type="text" id="firstName" class="form-control"/>
+                        <span id="firstNameError" class="help-block hidden">This field is required.</span>
+                      </div>
+                      <div id="lastNameDiv" class="col-xs-6 close-col">
+                        <label class="control-label" for="lastName">Last Name*</label>
+                        <input type="text" id="lastName" class="form-control"/>
+                        <span id="lastNameError" class="help-block hidden">This field is required.</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div id="emailDiv" class="col-xs-12 close-col">
+                        <label class="control-label" for="email">Email*</label>
+                        <input type="text" id="email" class="form-control"/>
+                        <span id="emailError" class="help-block hidden">This field is required.</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div id="addressDiv" class="col-xs-12 close-col">
+                        <label class="control-label" for="address">Address*</label>
+                        <input type="text" id="address" class="form-control"/>
+                        <span id="addressError" class="help-block hidden">This field is required.</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div id="cityDiv" class="col-xs-6 close-col">
+                        <label class="control-label" for="city">City*</label>
+                        <input type="text" id="city" class="form-control"/>
+                        <span id="cityError" class="help-block hidden">This field is required.</span>
+                      </div>
+                      <div id="stateDiv" class="col-xs-3 close-col">
+                        <label class="control-label" for="state">State*</label>
+                        <select id="state" class="form-control">
+                          <option>Select</option>
+                          <option value="AK">AK</option>
+                          <option value="AZ">AZ</option>
+                          <option value="AR">AR</option>
+                          <option value="CA">CA</option>
+                          <option value="CO">CO</option>
+                          <option value="CT">CT</option>
+                          <option value="DE">DE</option>
+                          <option value="DC">DC</option>
+                          <option value="FL">FL</option>
+                          <option value="GA">GA</option>
+                          <option value="HI">HI</option>
+                          <option value="ID">ID</option>
+                          <option value="IL">IL</option>
+                          <option value="IN">IN</option>
+                          <option value="IA">IA</option>
+                          <option value="KS">KS</option>
+                          <option value="KY">KY</option>
+                          <option value="LA">LA</option>
+                          <option value="ME">ME</option>
+                          <option value="MD">MD</option>
+                          <option value="MA">MA</option>
+                          <option value="MI">MI</option>
+                          <option value="MN">MN</option>
+                          <option value="MS">MS</option>
+                          <option value="MO">MO</option>
+                          <option value="MT">MT</option>
+                          <option value="NE">NE</option>
+                          <option value="NV">NV</option>
+                          <option value="NH">NH</option>
+                          <option value="NJ">NJ</option>
+                          <option value="NM">NM</option>
+                          <option value="NY">NY</option>
+                          <option value="NC">NC</option>
+                          <option value="ND">ND</option>
+                          <option value="OH">OH</option>
+                          <option value="OK">OK</option>
+                          <option value="OR">OR</option>
+                          <option value="PA">PA</option>
+                          <option value="RI">RI</option>
+                          <option value="SC">SC</option>
+                          <option value="SD">SD</option>
+                          <option value="TN">TN</option>
+                          <option value="TX">TX</option>
+                          <option value="UT">UT</option>
+                          <option value="VT">VT</option>
+                          <option value="VA">VA</option>
+                          <option value="WA">WA</option>
+                          <option value="WV">WV</option>
+                          <option value="WI">WI</option>
+                          <option value="WY">WY</option>
+                        </select>
+                        <span id="stateError" class="help-block hidden">This field is required.</span>
+                      </div>
+                      <div id="zipDiv" class="col-xs-3 close-col">
+                        <label class="control-label" for="zip">Zip*</label>
+                        <input type="text" id="zip" class="form-control"/>
+                        <span id="zipError" class="help-block hidden">This field is required.</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <button id="btn-donor-next" type="button" class="btn btn-block">Next</button>
+                      </div>
+                    </div>    
+                  </div>
+                  <!-- End Donor Info Panel -->
+                  <!-- Payment Info Panel -->
+                  <div id="panel-paymentInfo" class="panel-body hidden">
+                    <div class="row">
+                      <div id="braintreeErrorDiv" class="form-group col-xs-12">
+                        <span id="braintreeError" class="help-block hidden">There was an error processing your card. Please verify all information and resubmit.</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div id="card-numberDiv" class="form-group col-xs-8">
+                        <label class="control-label">Card Number</label>
+                        <!--  Hosted Fields div container  -->
+                        <div class="form-control col-xs-12" id="card-number"></div>
+                        <span class="helper-text"></span>
+                        <span id="card-numberError" class="help-block hidden">Please enter a valid credit card number.</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div id="expiration-dateDiv" class="form-group col-xs-6">
+                        <label class="control-label">Expiration Date</label>
+                        <!--  Hosted Fields div container -->
+                        <div class="form-control" id="expiration-date"></div>
+                        <span class="helper-text"></span>
+                        <span id="expiration-dateError" class="help-block hidden">Please enter a valid expiration date.</span>
+                      </div>
+                      <div id="cvvDiv" class="form-group col-xs-6">
+                        <label class="control-label">Security Code</label>
+                        <!--  Hosted Fields div container -->
+                        <div class="form-control" id="cvv"></div>
+                        <span id="cvvError" class="help-block hidden">Please enter a valid security code.</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div id="postal-codeDiv" class="form-group col-xs-6">
+                        <label class="control-label">Zipcode</label>
+                        <!--  Hosted Fields div container -->
+                        <div class="form-control" id="postal-code"></div>
+                        <span id="postal-codeError" class="help-block hidden">Please enter a valid zipcode.</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <button id="btn-donate" type="button" class="btn btn-block">Donate</button>
+                      </div>
+                    </div>    
+                  </div>
+                  <!-- End Payment Info Panel -->
+                  <!-- Thank You Panel -->
+                  <div id="panel-thankYou" class="panel-body hidden">
+                    <div class="row">
+                      <div class="form-group col-xs-8">
+                        <label class="control-label">Transaction ID</label>
+                        <span id="transactionId" class="helper-text"></span>
+                      </div>
+                    </div>
+                  </div>
+                  </form>
+              </div>
+            </div>            
+            <!-- CREDIT CARD FORM ENDS HERE -->
+        </div>
+      </div>
+    </div>
+
+
+
+  </body>
+</html>

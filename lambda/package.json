@@ -1,0 +1,27 @@
+{
+  "name": "freedomconnexion-lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-aws-lambda": "^0.13.0"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.7",
+    "bcrypt-nodejs": "0.0.3",
+    "bluebird": "^3.4.6",
+    "braintree": "^1.42.0",
+    "jsonschema": "^1.1.0",
+    "jsonwebtoken": "^7.1.9",
+    "pg-promise": "^5.3.4",
+    "request": "^2.75.0",
+    "request-promise": "^4.1.1",
+    "sendgrid": "^4.7.1"
+  }
+}

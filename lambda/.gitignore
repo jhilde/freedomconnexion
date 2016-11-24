@@ -1,0 +1,11 @@
+#Grunt dist folder
+dist
+
+#Node modules
+node_modules
+
+#Not ready items that have passwords hard coded, etc
+not_ready
+
+#env variables
+env.json
