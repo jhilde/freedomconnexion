@@ -370,6 +370,33 @@ function BraintreeSale(donation) {
 	this.options.submitForSettlement = true;
 }
 
+function BraintreeCustomer(donation) {
+    this.paymentMethodNonce = donation.nonce;
+
+    this.firstName = donation.donor_info.first_name;
+    this.lastName = donation.donor_info.last_name;
+    this.phone = donation.donor_info.phone;
+    this.email = donation.donor_info.email;
+
+    this.creditCard = {};
+
+    this.creditCard.billingAddress = {};
+    this.creditCard.billingAddress.firstName = donation.donor_info.first_name;
+    this.creditCard.billingAddress.lastName = donation.donor_info.last_name;
+    this.creditCard.billingAddress.streetAddress = donation.donor_info.address.street_address;
+    this.creditCard.billingAddress.extendedAddress = donation.donor_info.address.extended_address;
+    this.creditCard.billingAddress.locality = donation.donor_info.address.city;
+    this.creditCard.billingAddress.region = donation.donor_info.address.state;
+    this.creditCard.billingAddress.postalCode = donation.donor_info.address.zip;
+    
+}
+
+function BraintreeSubscription(cardToken, planId, amount) {
+    this.paymentMethodToken = cardToken;
+    this.planId = planId;
+    this.price = amount;  
+}
+
 exports.donate = (event, context, callback) => {
     console.log("Called donate");
     console.log(event.body_json);
@@ -393,47 +420,94 @@ exports.donate = (event, context, callback) => {
         return;
     }
 
-    console.log("Got here again!!!");
 
     var gateway = BraintreeGateway();
-    console.log(gateway);
+    //console.log(gateway);
 
-    var braintreeSale = new BraintreeSale(donation);
+    
+    if(donation.donation_info.frequency == "monthly") {
+        var braintreeCustomer = new BraintreeCustomer(donation);
 
-    gateway.transaction.sale(braintreeSale, function(err, result) {
-    	if(result) {
-    		if(result.success) {
-    			console.log("Transction ID: " + result.transaction.id);
-                //Let's send the email
-                console.log("Sending to: " + donation.donor_info.email);
-                sendEmail(donation.donor_info.email, donation.donor_info.first_name, donation.donor_info.last_name, donation.donation_info.amount, result.transaction.id).then(response => {
-                    console.log(response.statusCode);
-                    console.log(response.body);
-                    console.log(response.headers);
+        gateway.customer.create(braintreeCustomer, function(err, result) {
+            if(result) {
+                if(result.success) {
+                    console.log("Created customer: " + result.customer.id);
+                    console.log("Created payement method: " + result.customer.creditCards[0].token);
 
-                    
-                })
-                .catch(error => {
-                    //error is an instance of SendGridError
-                    //The full response is attached to error.response
-                    console.log("Wow error with sendgrid:" + error.response);
-                })
-                .then(function() {
-                    console.log("In the second then!");
+                    var braintreeSubscription = new BraintreeSubscription(result.customer.creditCards[0].token, "monthly_donation",donation.donation_info.amount);
+
+                    gateway.subscription.create(braintreeSubscription, function (err, result) {
+                        if(result.success) {
+                            console.log("Created subscription: " + result.subscription.id);
+
+                            sendEmail(donation.donor_info.email, donation.donor_info.first_name, donation.donor_info.last_name, donation.donation_info.amount, result.subscription.id).then(response => {
+                                console.log(response.statusCode);
+                                console.log(response.body);
+                                console.log(response.headers);    
+                            })
+                            .catch(error => {
+                                //error is an instance of SendGridError
+                                //The full response is attached to error.response
+                                console.log("Wow error with sendgrid:" + error.response);
+                            })
+                            .then(function() {
+                                console.log("In the second then!");
+                                callback(null, result);
+                            });
+                        }
+                        else {
+                            callback(null, result);
+                        }
+                    });
+
+                }
+                else {
                     callback(null, result);
-                });
-    			
-    		}
-    		else {
-    			console.log(result.message);
-    			callback(null, result);
-    		}
-    	}
-    	else {
-    		console.log(err);
-    		callback(err, "Error");
-    	}
-    });
+                }
+            }
+            else {
+                callback(null, err);
+            }            
+        });
+    }
+    else {
+        var braintreeSale = new BraintreeSale(donation);
+
+        gateway.transaction.sale(braintreeSale, function(err, result) {
+            if(result) {
+                if(result.success) {
+                    console.log("Transction ID: " + result.transaction.id);
+                    //Let's send the email
+                    console.log("Sending to: " + donation.donor_info.email);
+                    sendEmail(donation.donor_info.email, donation.donor_info.first_name, donation.donor_info.last_name, donation.donation_info.amount, result.transaction.id).then(response => {
+                        console.log(response.statusCode);
+                        console.log(response.body);
+                        console.log(response.headers);
+
+                        
+                    })
+                    .catch(error => {
+                        //error is an instance of SendGridError
+                        //The full response is attached to error.response
+                        console.log("Wow error with sendgrid:" + error.response);
+                    })
+                    .then(function() {
+                        console.log("In the second then!");
+                        callback(null, result);
+                    });
+                    
+                }
+                else {
+                    console.log(result.message);
+                    callback(null, result);
+                }
+            }
+            else {
+                console.log(err);
+                callback(err, "Error");
+            }
+        });
+    }
 };
 
 exports.clientToken = function(event, context) {
